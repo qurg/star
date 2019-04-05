@@ -1,15 +1,32 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 from django.views.generic import ListView
 
 from index.models import Product
+from index.form import *
+
+
+# def index(request):
+#     type_list = Product.objects.values('type').distinct()
+#     name_list = Product.objects.values('name', 'type')
+#     return render(request, 'index.html', locals())
 
 
 def index(request):
-    type_list = Product.objects.values('type').distinct()
-    name_list = Product.objects.values('name', 'type')
-    return render(request, 'index.html', locals())
+    if request.method == 'GET':
+        product = ProductForm()
+        return render(request, 'data_form.html', locals())
+    else:
+        product = ProductForm(request.POST)
+        if product.is_valid():
+            name = product['name']
+            return HttpResponse('提交成功')
+        else:
+            error_msg = product.errors.as_json()
+            print(error_msg)
+            return render(request, 'data_form.html', locals())
 
 
 class ProductList(ListView):
