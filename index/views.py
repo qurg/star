@@ -56,6 +56,16 @@ def model_index(request, id):
             # 直接保存数据
             product.save()
 
+            # 计划获取同ID的产品，但是失败了。!!!!
+            # product_in = Product.objects.get(id=id)
+            # if product_in:
+            #     product_in.name = product.name
+            #     product_in.weight = product.weight
+            #     product_in.size = product.size
+            #     product_in.save()
+            # else:
+            #     product.save()
+
             # 保存前有一些属性需要调整
             # product_db = product.save(commit=False)
             # product_db.name = 'change name'
